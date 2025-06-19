@@ -1,0 +1,142 @@
+.about-container {
+  font-family: "Poppins", sans-serif;
+  color: #2c2c2c;
+  background: linear-gradient(to bottom, #fffaf6, #f0e8e0);
+}
+
+.about-hero {
+  position: relative;
+  height: 450px;
+  overflow: hidden;
+  border-bottom: 6px solid #d8a66a;
+}
+
+.about-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(80%);
+}
+
+.overlay-text {
+  position: absolute;
+  top: 40%;
+  left: 10%;
+  color: #fff;
+  text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 20px 30px;
+  border-radius: 10px;
+}
+
+.overlay-text h1 {
+  font-size: 52px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.overlay-text p {
+  font-size: 20px;
+  font-style: italic;
+}
+
+.about-content {
+  padding: 60px 12%;
+  background-color: #fffaf6;
+}
+
+.about-content h2 {
+  font-size: 40px;
+  color: #8b5c3b;
+  margin-bottom: 25px;
+  text-align: center;
+  position: relative;
+}
+
+.about-content h2::after {
+  content: "";
+  width: 80px;
+  height: 4px;
+  background-color: #d8a66a;
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.about-content p {
+  font-size: 18px;
+  line-height: 1.8;
+  text-align: center;
+  max-width: 850px;
+  margin: 0 auto 50px auto;
+}
+
+.mission-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 40px;
+  justify-content: center;
+  margin-bottom: 60px;
+}
+
+.mission-section img {
+  width: 45%;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.mission-text {
+  max-width: 500px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.mission-text h3 {
+  font-size: 30px;
+  color: #a9785a;
+  margin-bottom: 15px;
+}
+
+.mission-text p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #4b4b4b;
+}
+
+.why-choose-us {
+  text-align: center;
+}
+
+.why-choose-us h3 {
+  font-size: 32px;
+  color: #8b5c3b;
+  margin-bottom: 25px;
+}
+
+.why-choose-us ul {
+  list-style: none;
+  padding-left: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.why-choose-us li {
+  background: #fff;
+  padding: 15px 25px;
+  border-left: 6px solid #d8a66a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+  font-size: 18px;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.why-choose-us li:hover {
+  transform: translateY(-5px);
+}

@@ -1,0 +1,158 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+.payment-wrapper {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  display: flex;
+  gap: 35px;
+  font-family: "Poppins", sans-serif;
+  color: #3c2f2f;
+}
+
+.payment-card {
+  background: #fff;
+  flex: 1.5;
+  padding: 30px 35px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+}
+
+.payment-title {
+  margin-bottom: 25px;
+  font-weight: 700;
+  font-size: 1.9rem;
+  color: #774936;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 28px;
+}
+
+.input-group input {
+  width: 100%;
+  border: 1.8px solid #d9c6b3;
+  border-radius: 15px;
+  padding: 16px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  outline: none;
+  background: #f9f7f1;
+  transition: border-color 0.3s ease;
+}
+
+.input-group input:focus {
+  border-color: #b1683c;
+  background: #fff;
+}
+
+.input-group input::placeholder {
+  color: transparent;
+}
+
+.input-group label {
+  position: absolute;
+  top: 16px;
+  left: 18px;
+  color: #a3856e;
+  font-weight: 500;
+  font-size: 1rem;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+  top: -10px;
+  left: 14px;
+  background: #fff;
+  padding: 0 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #7a4a24;
+  border-radius: 4px;
+}
+
+.input-group input.invalid {
+  border-color: #e94b3c;
+  background: #fce8e6;
+}
+
+.error-msg {
+  color: #e94b3c;
+  font-size: 0.8rem;
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+.small-inputs {
+  display: flex;
+  gap: 20px;
+}
+
+.small-inputs .input-group {
+  flex: 1;
+}
+
+.pay-btn {
+  background: linear-gradient(135deg, #d97f2d, #a45a1b);
+  border: none;
+  padding: 16px 0;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: white;
+  border-radius: 40px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(212, 126, 33, 0.6);
+  transition: background 0.3s ease, transform 0.2s ease;
+  margin-top: auto;
+}
+
+.pay-btn:hover {
+  background: linear-gradient(135deg, #a45a1b, #d97f2d);
+  transform: scale(1.05);
+  box-shadow: 0 12px 28px rgba(212, 126, 33, 0.8);
+}
+
+/* Summary box */
+.summary-box {
+  flex: 1;
+  background: #fff3e4;
+  padding: 30px 25px;
+  border-radius: 20px;
+  box-shadow: 0 15px 30px rgba(219, 166, 115, 0.25);
+  color: #744d24;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.summary-box h3 {
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #d69c40;
+  padding-bottom: 8px;
+}
+
+.summary-box p {
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 720px) {
+  .payment-wrapper {
+    flex-direction: column;
+  }
+
+  .summary-box {
+    margin-top: 25px;
+    text-align: center;
+  }
+}
