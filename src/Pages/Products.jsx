@@ -1,75 +1,65 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { useCart } from "../context/CartContext";
-import products from "./products"; // your product array
+import products from "../Pages/products"; // your shared products array
 
 const Products = () => {
-  const { addToCart } = useCart();
-  const [wishlist, setWishlist] = useState([]);
 
-  useEffect(() => {
-    const stored = localStorage.getItem("wishlist");
-    if (stored) setWishlist(JSON.parse(stored));
-  }, []);
+  const addToCart = (product) => {
+    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  const addToWishlist = (product) => {
-    const exists = wishlist.find((item) => item.id === product.id);
-    if (exists) {
-      alert("Already in Wishlist!");
-      return;
+    const existingIndex = existingCart.findIndex(item => item.id === product.id);
+
+    if (existingIndex !== -1) {
+      // Item already in cart → increase quantity
+      existingCart[existingIndex].qty += 1;
+    } else {
+      // New item → push to cart
+      existingCart.push({
+        id: product.id,
+        name: product.name,
+        image: product.image,
+        price: product.price,
+        qty: 1
+      });
     }
-    const updated = [...wishlist, product];
-    setWishlist(updated);
-    localStorage.setItem("wishlist", JSON.stringify(updated));
-    alert("Added to Wishlist!");
+
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+
+    // ✅ This will update the Dashboard count immediately
+    window.dispatchEvent(new Event("storage"));
+
+    alert("✅ Added to cart successfully!");
   };
 
   return (
-    <div className="min-h-screen bg-[#fefaf6] p-4">
-      <h2 className="text-xl font-semibold text-center mb-6">
-        Total Products: {products.length}
-      </h2>
-
-      {/* Grid Layout */}
+    <div className="max-w-6xl mx-auto py-6 px-4">
+      <h2 className="text-3xl font-bold text-center mb-8">✨ Our Jewellery Collection</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
-          <div
-            key={product.id}
-            className="bg-white rounded-xl shadow hover:shadow-lg p-4 flex flex-col items-center text-center transition duration-300"
-          >
+          <div key={product.id} className="border p-4 rounded shadow hover:shadow-lg">
             <img
               src={product.image}
               alt={product.name}
-              className="w-[160px] h-[160px] object-contain rounded-lg mb-3"
+              className="h-48 w-full object-contain mb-2"
             />
+            <h3 className="text-lg font-semibold">{product.name}</h3>
+            <p className="text-red-600 font-bold mt-1">₹{product.price.toLocaleString()}</p>
 
-            <h3 className="font-semibold text-base text-gray-800">
-              {product.name}
-            </h3>
-            <p className="text-red-600 font-bold my-1">₹{product.price}</p>
-
-            {/* Buttons */}
-            <div className="flex flex-col gap-2 mt-2 w-full">
-              <button
-                onClick={() => addToCart(product)}
-                className="bg-blue-900 hover:bg-blue-800 text-white py-2 rounded flex items-center justify-center gap-2"
-              >
-                🛒 Add to Cart
+            {/* View Button */}
+            <Link to={`/products/${product.id}`}>
+              <button className="mt-3 w-full bg-blue-900 text-white py-2 rounded hover:bg-blue-800">
+                👁️ View
               </button>
+            </Link>
 
-              <button
-                onClick={() => addToWishlist(product)}
-                className="border border-orange-400 text-orange-500 py-2 rounded flex items-center justify-center gap-2"
-              >
-                ❤️ Wishlist
-              </button>
+            {/* Add to Cart Button */}
+            <button
+              onClick={() => addToCart(product)}
+              className="mt-2 w-full bg-green-600 text-white py-2 rounded hover:bg-green-500"
+            >
+              🛒 Add to Cart
+            </button>
 
-              <Link to={`/products/${product.id}`}>
-                <button className="bg-black text-white py-2 rounded w-full hover:bg-gray-800">
-                  View
-                </button>
-              </Link>
-            </div>
           </div>
         ))}
       </div>

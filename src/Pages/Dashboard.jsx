@@ -11,9 +11,10 @@ const Dashboard = () => {
 
   const loadCounts = () => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    const wishlist = JSON.parse(localStorage.getItem("wishlistItems")) || []; // ✅ fixed key
     const orders = JSON.parse(localStorage.getItem("orders")) || [];
 
+    // 🛒 Sum cart items by qty (default to 1)
     setCartCount(cart.reduce((acc, item) => acc + (item.qty || 1), 0));
     setWishlistCount(wishlist.length);
     setOrdersCount(orders.length);
@@ -27,12 +28,15 @@ const Dashboard = () => {
 
   useEffect(() => {
     loadCounts();
+
     const syncCounts = () => loadCounts();
-    window.addEventListener("storage", syncCounts);
+
     window.addEventListener("focus", syncCounts);
+    window.addEventListener("storage", syncCounts); // optional
+
     return () => {
-      window.removeEventListener("storage", syncCounts);
       window.removeEventListener("focus", syncCounts);
+      window.removeEventListener("storage", syncCounts);
     };
   }, []);
 
@@ -50,28 +54,28 @@ const Dashboard = () => {
       value: ordersCount,
       icon: "💍",
       color: "#e5b38b",
-      link: "/orders"
+      link: "/orders",
     },
     {
       title: "Wishlist",
       value: wishlistCount,
       icon: "💖",
       color: "#ff7eb3",
-      link: "/wishlist"
+      link: "/wishlist",
     },
     {
       title: "Cart Items",
       value: cartCount,
       icon: "🛒",
       color: "#87c0cd",
-      link: "/cart"
+      link: "/cart",
     },
     {
       title: "Profile Views",
       value: profileViews,
       icon: "👁️",
       color: "#f9d89c",
-      link: "/profile"
+      link: "/profile",
     },
   ];
 

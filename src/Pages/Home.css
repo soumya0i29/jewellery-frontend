@@ -382,3 +382,44 @@
   background: #f357a8; /* Lighter or alternate gradient */
   transform: translateY(-2px) scale(1.05);
 }
+.hero-section {
+  background-image: url("/images/hero1.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.5); /* Optional for readability */
+  color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  max-width: 90%;
+}
+
+.overlay h1 {
+  font-size: 1.75rem;
+}
+
+@media (min-width: 640px) {
+  .overlay h1 {
+    font-size: 2.5rem;
+  }
+}
+
+.shop-now-btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1.5rem;
+  background-color: #ec4899; /* Tailwind pink-500 */
+  color: white;
+  border: none;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.shop-now-btn:hover {
+  background-color: #db2777; /* Tailwind pink-600 */
+}

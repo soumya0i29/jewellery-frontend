@@ -2,16 +2,35 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [wishlistCount, setWishlistCount] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
 
+  // Load counts on initial load and update on localStorage change
   useEffect(() => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-    setCartCount(cart.reduce((acc, item) => acc + (item.qty || 1), 0));
-    setWishlistCount(wishlist.length);
+    updateCounts();
+
+    const handleStorageChange = () => {
+      updateCounts();
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
+
+  // Function to get latest counts
+  const updateCounts = () => {
+    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+    const wishlistItems = JSON.parse(localStorage.getItem("wishlistItems")) || [];
+
+    const totalCart = cartItems.reduce((sum, item) => sum + (item.qty || 1), 0);
+
+    setCartCount(totalCart);
+    setWishlistCount(wishlistItems.length);
+  };
 
   return (
     <nav className="bg-blue-900 text-white px-4 py-3 flex items-center justify-between shadow relative">
@@ -20,22 +39,27 @@ const Navbar = () => {
         💎 Jewellery Store
       </Link>
 
-      {/* Cart and Wishlist Icons - Always visible (moved above menu) */}
+      {/* Cart & Wishlist Icons */}
       <div className="flex items-center gap-4">
         <Link to="/cart" className="relative">
           🛒
-          <span className="absolute -top-2 -right-3 bg-red-600 text-xs rounded-full px-1">
-            {cartCount}
-          </span>
-        </Link>
-        <Link to="/wishlist" className="relative">
-          ❤️
-          <span className="absolute -top-2 -right-3 bg-red-600 text-xs rounded-full px-1">
-            {wishlistCount}
-          </span>
+          {cartCount > 0 && (
+            <span className="absolute -top-2 -right-3 bg-red-600 text-xs rounded-full px-1">
+              {cartCount}
+            </span>
+          )}
         </Link>
 
-        {/* Hamburger Icon for Mobile */}
+        <Link to="/wishlist" className="relative">
+          ❤️
+          {wishlistCount > 0 && (
+            <span className="absolute -top-2 -right-3 bg-red-600 text-xs rounded-full px-1">
+              {wishlistCount}
+            </span>
+          )}
+        </Link>
+
+        {/* Hamburger for mobile */}
         <button className="sm:hidden" onClick={() => setIsOpen(!isOpen)}>
           <svg className="w-6 h-6" fill="none" stroke="white" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 8h16M4 16h16" />
