@@ -1,65 +1,73 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "./Navbar.css";
-import { motion } from "framer-motion";
-import { useCart } from "../context/CartContext";
 
-const Navbar = ({ user, onLogout }) => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const { cart } = useCart(); // Cart context
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
+  const [wishlistCount, setWishlistCount] = useState(0);
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
-
-  // Cart count
-  const cartCount = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+  useEffect(() => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    setCartCount(cart.reduce((acc, item) => acc + (item.qty || 1), 0));
+    setWishlistCount(wishlist.length);
+  }, []);
 
   return (
-    <nav className="navbar">
-      <div className="navbar-logo">
-        <Link to="/" className="logo-text">💎 Jewellery Store</Link>
+    <nav className="bg-blue-900 text-white px-4 py-3 flex items-center justify-between shadow relative">
+      {/* Logo */}
+      <Link to="/" className="text-xl font-bold text-yellow-400 flex items-center gap-2">
+        💎 Jewellery Store
+      </Link>
+
+      {/* Cart and Wishlist Icons - Always visible (moved above menu) */}
+      <div className="flex items-center gap-4">
+        <Link to="/cart" className="relative">
+          🛒
+          <span className="absolute -top-2 -right-3 bg-red-600 text-xs rounded-full px-1">
+            {cartCount}
+          </span>
+        </Link>
+        <Link to="/wishlist" className="relative">
+          ❤️
+          <span className="absolute -top-2 -right-3 bg-red-600 text-xs rounded-full px-1">
+            {wishlistCount}
+          </span>
+        </Link>
+
+        {/* Hamburger Icon for Mobile */}
+        <button className="sm:hidden" onClick={() => setIsOpen(!isOpen)}>
+          <svg className="w-6 h-6" fill="none" stroke="white" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 8h16M4 16h16" />
+          </svg>
+        </button>
       </div>
 
-      <div className="hamburger" onClick={toggleMenu}>
-        <div className={menuOpen ? "bar open" : "bar"}></div>
-        <div className={menuOpen ? "bar open" : "bar"}></div>
-        <div className={menuOpen ? "bar open" : "bar"}></div>
+      {/* Desktop Menu */}
+      <div className="hidden sm:flex gap-6 items-center text-sm">
+        <Link to="/">Home</Link>
+        <Link to="/products">Products</Link>
+        <Link to="/about">About</Link>
+        <Link to="/contact">Contact</Link>
+        <Link to="/dashboard">Dashboard</Link>
+        <Link to="/orders">Orders</Link>
+        <Link to="/login">Login</Link>
+        <Link to="/signup">Signup</Link>
       </div>
 
-      <motion.ul
-        className={`navbar-links ${menuOpen ? "show" : ""}`}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <li><Link to="/" onClick={toggleMenu}>Home</Link></li>
-        <li><Link to="/products" onClick={toggleMenu}>Products</Link></li>
-        <li><Link to="/about" onClick={toggleMenu}>About</Link></li>
-        <li><Link to="/contact" onClick={toggleMenu}>Contact</Link></li>
-        <li>
-          <Link to="/cart" onClick={toggleMenu}>
-            Cart 🛒
-            {cartCount > 0 && (
-              <span className="cart-count-badge">{cartCount}</span>
-            )}
-          </Link>
-        </li>
-        <li><Link to="/wishlist" onClick={toggleMenu}>Wishlist ❤️</Link></li>
-        <li><Link to="/dashboard" onClick={toggleMenu}>Dashboard</Link></li>
-        <li><Link to="/Orders" onClick={toggleMenu}>Orders</Link></li>
-        {user ? (
-          <>
-            {/* Dashboard already above, can remove duplicate if needed */}
-            <li>
-              <button onClick={() => { toggleMenu(); onLogout(); }} className="logout-btn">Logout</button>
-            </li>
-          </>
-        ) : (
-          <>
-            <li><Link to="/login" onClick={toggleMenu}>Login</Link></li>
-            <li><Link to="/signup" onClick={toggleMenu}>Signup</Link></li>
-          </>
-        )}
-      </motion.ul>
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="absolute top-[60px] left-0 w-full bg-blue-900 text-white flex flex-col gap-3 p-4 sm:hidden z-50">
+          <Link to="/" onClick={() => setIsOpen(false)}>Home</Link>
+          <Link to="/products" onClick={() => setIsOpen(false)}>Products</Link>
+          <Link to="/about" onClick={() => setIsOpen(false)}>About</Link>
+          <Link to="/contact" onClick={() => setIsOpen(false)}>Contact</Link>
+          <Link to="/dashboard" onClick={() => setIsOpen(false)}>Dashboard</Link>
+          <Link to="/orders" onClick={() => setIsOpen(false)}>Orders</Link>
+          <Link to="/login" onClick={() => setIsOpen(false)}>Login</Link>
+          <Link to="/signup" onClick={() => setIsOpen(false)}>Signup</Link>
+        </div>
+      )}
     </nav>
   );
 };
